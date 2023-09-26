@@ -28,7 +28,7 @@ sudo apt install ansible
 
 * Targeting single play with task
 
-`ansible-playbook ansible_tagsy.yml --tags play1`
+`ansible-playbook ansible_tags.yml --tags play1`
 
 * Targeting multiple tasks with multiple tasks
 
