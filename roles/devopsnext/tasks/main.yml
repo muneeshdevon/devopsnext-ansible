@@ -1,0 +1,38 @@
+---
+# tasks file for devopsnext
+- name: Copy Jinja template to remote server
+  template:
+    src: "../templates/sample.j2"
+    dest: "/home/ubuntu/sample.txt"
+
+- name: Installing ppa repo for PHP
+  apt_repository:
+    repo: ppa:ondrej/php
+    update_cache: true
+
+- name: Installing PHP
+  package:
+    name: php{{ php_version }}
+    state: present
+
+- name: Installing apache
+  apt:
+    name: apache2
+    state: present
+
+- name: Starting Apache
+  service:
+    name: apache2
+    state: started
+
+- name: Changing Default Aapche port
+  lineinfile:
+    path: /etc/apache2/ports.conf
+    regexp: '^Listen '
+    line: Listen 8000
+  notify: Restart apache
+
+- name: Restarting Apache
+  debug:
+    msg: "testing handler"
+  notify: Restart apache

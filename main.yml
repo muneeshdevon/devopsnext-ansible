@@ -1,0 +1,6 @@
+ - name: Running Nginx play
+   hosts: ubuntu1
+   become: true
+   tasks:
+   - import_role:
+        name: devopsnext

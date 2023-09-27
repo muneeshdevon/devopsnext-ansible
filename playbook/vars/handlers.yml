@@ -1,0 +1,37 @@
+- name: playbook with handlers
+  hosts: amazon
+  become: true
+  tasks:
+    - name: Removing nginx
+      yum:
+        name: nginx
+        state: absent
+        
+    - name: Installing Aapche
+      yum:
+        name: httpd
+        state: latest
+        
+    - name: starting apache
+      service:
+        name: httpd
+        state: restarted
+        enabled: true
+      notify:
+        - Restart apache
+        
+    - name: Adding line in apache
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^Listen '
+        insertafter: '^#Listen '
+        line: Listen 8000
+      notify:
+        - Restart apache
+      
+  handlers:
+    - name: Restart apache
+      ansible.builtin.service:
+        name: httpd
+        state: restarted
+

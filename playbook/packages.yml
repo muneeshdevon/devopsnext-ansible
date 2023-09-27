@@ -1,0 +1,13 @@
+- name: Installing multiple packages using loops
+  hosts: ubuntu
+  become: true 
+  tasks:
+    - name: update packages
+      apt:
+        update_cache: yes
+        
+    - name: Installing apache
+      apt:
+        name: apache2
+        state: present
+        

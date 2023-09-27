@@ -1,0 +1,4 @@
+- hosts: ubuntu1
+  become: true
+  roles:
+    - { role: geerlingguy.nginx }

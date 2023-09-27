@@ -1,0 +1,18 @@
+- name: playbook with tags
+  hosts: all
+  tasks:
+    - name : play 1
+      debug:
+        msg: "Hi from play 1"
+      tags:
+        - play1
+        
+    - name: play 2
+      debug:
+        msg: "Hi from play 2"
+        
+    - name: play 3
+      debug:
+        msg: "Hi from play 3"
+      tags:
+        - play3

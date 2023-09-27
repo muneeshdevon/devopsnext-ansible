@@ -1,0 +1,4 @@
+---
+# defaults file for devopsnext
+
+php_version : "8.1"

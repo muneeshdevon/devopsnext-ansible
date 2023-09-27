@@ -28,7 +28,7 @@ sudo apt install ansible
 
 * Targeting single play with task
 
-`ansible-playbook ansible_tags.yml --tags play1`
+`ansible-playbook ansible_tagsy.yml --tags play1`
 
 * Targeting multiple tasks with multiple tasks
 
@@ -48,6 +48,9 @@ sudo apt install ansible
 
 
 ## Ansible Facts
+
+* Ansible collects pretty much all the information about the remote hosts as it runs a playbook. 
+* The task of collecting this remote system information is called as Gathering Facts by ansible and the details collected are generally known as facts
 
 * Getting the Ansible Facts for Inventory
 
@@ -90,6 +93,22 @@ sudo apt install ansible
 
 `ansible-playbook -i inventory_grp playbook/vars/file_vars.yml`
 
+# Ansibe Handlers
+
+* Sometimes you want a task to run only when a change is made on a machine. 
+* For example, you may want to restart a service if a task updates the configuration of that service, but not if the configuration is unchanged. 
+* Ansible uses handlers to address this use case. Handlers are tasks that only run when notified.
+
+```
+- name: Changing Default Aapche port
+  lineinfile:
+    path: /etc/apache2/ports.conf
+    regexp: '^Listen '
+    line: Listen 8000
+  notify: Restart apache
+  ```
+Reference : https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_handlers.html
+
 # Ansible Roles
 
 Roles enable us to reuse and share our Ansible code efficiently. They provide a well-defined framework and structure for setting your tasks, variables, handlers, metadata, templates, and other files. This way, we can reference and call them in our playbooks with just a few lines of code while we can reuse the same roles over many projects without the need to duplicate our code.
@@ -116,21 +135,37 @@ Roles enable us to reuse and share our Ansible code efficiently. They provide a 
 URL : https://galaxy.ansible.com/search?deprecated=false&keywords=&order_by=-relevance
 
 * you can run the below command to import any existing Role
-    * Lets download the Jenkins Role and deploy Jenkins Server
+    * Lets download the Nginx Role and deploy it.
 
 URL : 
 * https://galaxy.ansible.com/geerlingguy/jenkins
 * https://github.com/geerlingguy/ansible-role-jenkins
 
-`ansible-galaxy install geerlingguy.jenkins`
-
-  * For Jenkins we also need to download java role and you can download it using below command
-
-`ansible-galaxy install geerlingguy.java`
+`ansible-galaxy install geerlingguy.nginx`
 
   * Once downloaded the roles, now you can run the playbook using below command
 
-``
+`ansible-playbook -i inventory_grp nginx.yml `
 
+# Ansible Vault
 
-# devopsnext-ansible
+Ansible feature that helps you encrypt confidential information without compromising security
+
+* command to create Vault
+
+`ansible-vault create vars/user.yml`
+
+*Note*: The user.yml file should not be already exist.
+
+* Command to encrypt existing file
+
+`ansible-vault encrypt vars/user.yml`
+
+* Command to decrypt the vault file
+
+`ansible-vault decrypt vars/user.yml`
+
+* Command to endit the encrypted file
+
+`ansible-vault edit vars/user.yml`
+

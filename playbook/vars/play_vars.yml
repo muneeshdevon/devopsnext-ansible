@@ -1,0 +1,10 @@
+- name: playbook to show the variables
+  hosts: all
+  become: true
+  vars:
+    package_name: apache2
+  tasks:
+    - name: Installing git command
+      apt:
+        name: "{{ package_name }}"
+        state: present

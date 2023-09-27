@@ -1,0 +1,10 @@
+---
+# handlers file for devopsnext
+# Handlers will only trigger for changed state of play/module that it refered to
+# Handlers will be triggered only once even though refered multiple times
+# Handlers will be always executed at the end of the playbook.
+
+- name: Restart apache
+  service:
+    name: apache2
+    state: restarted

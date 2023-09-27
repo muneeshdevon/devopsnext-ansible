@@ -1,0 +1,17 @@
+- name: Installing multiple packages using loops
+  hosts: all
+  become: true
+  tasks:
+    - name: update packages
+      apt:
+        update_cache: yes
+        
+    - name: Installing apache
+      apt:
+        name: "{{ package }}"
+        state: present
+      loop: 
+        - apache2
+        - lsof
+        - telnet
+        - mlocate
